@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eason Ma 的小天地</title>
+<meta name="description" content="Eason Ma 的线上小角落：学业、项目、旅途与细碎日常。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blush: '#FDF2F8', mist: '#EFF6FF', mint: '#ECFDF5',
+        butter: '#FEFCE8', lilac: '#F5F3FF'
+      },
+      fontFamily: { sans: ['"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'] },
+      boxShadow: {
+        soft: '0 10px 30px -12px rgba(110,95,130,.20)',
+        lift: '0 18px 44px -14px rgba(110,95,130,.30)'
+      },
+      borderRadius: { '4xl': '2rem' }
+    }
+  }
+}
+</script>
+<style>
+  html{scroll-behavior:smooth;scroll-padding-top:5rem;font-size:17px}
+  ::selection{background:#FBCFE8;color:#5B2333}
+
+  /* ===== 毛玻璃质感 ===== */
+  .glass{background:rgba(255,255,255,.45);backdrop-filter:blur(20px) saturate(1.4);
+    -webkit-backdrop-filter:blur(20px) saturate(1.4);
+    border:1px solid rgba(255,255,255,.65);
+    box-shadow:0 18px 44px -16px rgba(120,100,150,.25)}
+  .glass-strong{background:rgba(255,255,255,.62);backdrop-filter:blur(24px) saturate(1.5);
+    -webkit-backdrop-filter:blur(24px) saturate(1.5);
+    border:1px solid rgba(255,255,255,.75);
+    box-shadow:0 22px 50px -16px rgba(120,100,150,.30)}
+  .glass-nav{background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(1.5);
+    -webkit-backdrop-filter:blur(22px) saturate(1.5);border-bottom:1px solid rgba(255,255,255,.6)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.3,1),transform .9s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .floaty{animation:floaty 6s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(18px,-14px) scale(1.06)}}
+  .blob{animation:drift 16s ease-in-out infinite;filter:blur(6px)}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .floaty,.blob{animation:none}
+  }
+
+  /* ===== 抽卡 ===== */
+  .deckcard{position:absolute;inset:0;border-radius:1.5rem;border:1px solid rgba(255,255,255,.7);
+    background:linear-gradient(135deg,rgba(255,255,255,.75) 0%,rgba(253,242,248,.7) 55%,rgba(245,243,255,.7) 100%);
+    backdrop-filter:blur(10px);box-shadow:0 12px 28px -14px rgba(110,95,130,.28)}
+  @keyframes shuffle{
+    0%{transform:rotate(0)}22%{transform:rotate(-7deg) translateY(-10px)}
+    48%{transform:rotate(6deg) translateY(3px)}74%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+  .shuffling{animation:shuffle .55s ease}
+
+  /* ===== 知识科普翻卡 ===== */
+  .flipcard{perspective:1400px}
+  .flipinner{position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.25,.8,.3,1)}
+  .flipcard.flipped .flipinner{transform:rotateY(180deg)}
+  .fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    border-radius:2rem;overflow:hidden}
+  .fface.back{transform:rotateY(180deg)}
+  .fscroll{overflow-y:auto;scrollbar-width:none}
+  .fscroll::-webkit-scrollbar{display:none}
+
+  /* ===== 逐梦时间轴：视差箭头 ===== */
+  #dreamScene{perspective:1100px}
+  #dreamTilt{transition:transform .4s ease-out;will-change:transform}
+  .flowline{stroke-dasharray:14 10;animation:flow 2.6s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-48}}
+  @media (prefers-reduced-motion:reduce){.flowline{animation:none}}
+  .dreamNode{transform:translate(-50%,-50%)}
+
+  /* ===== 音乐唱片 ===== */
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spinning{animation:spin 14s linear infinite}
+  @media (prefers-reduced-motion:reduce){.spinning{animation:none}}
+
+  .lyricline{transition:all .4s ease;opacity:.4}
+  .lyricline.cur{opacity:1;font-weight:500;transform:scale(1.04)}
+
+  /* ===== 留言墙 ===== */
+  .note{position:relative;border-radius:.9rem;padding:1.6rem 1.1rem .9rem;
+    box-shadow:0 10px 24px -10px rgba(110,95,130,.25);transition:transform .4s ease}
+  .note:hover{transform:translateY(-4px) rotate(0deg) !important}
+  .pin{position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;
+    box-shadow:0 3px 5px rgba(0,0,0,.18),inset 0 -2px 3px rgba(0,0,0,.15),inset 0 2px 3px rgba(255,255,255,.5)}
+  .note-body{font-size:.95rem;line-height:1.7;color:#475569;word-break:break-word}
+
+  .frame-polaroid{background:rgba(255,255,255,.85);padding:.7rem .7rem 2.6rem;border-radius:.8rem;
+    backdrop-filter:blur(12px);box-shadow:0 12px 26px -14px rgba(110,95,130,.32)}
+  .frame-soft{background:rgba(255,255,255,.75);padding:.55rem;border-radius:1.6rem;
+    backdrop-filter:blur(12px);box-shadow:0 12px 26px -14px rgba(110,95,130,.3);border:1px solid rgba(255,255,255,.7)}
+  .frame-plate{background:rgba(255,255,255,.78);padding:.65rem;border-radius:2rem;
+    backdrop-filter:blur(12px);box-shadow:0 14px 30px -14px rgba(110,95,130,.34);border:1px solid rgba(255,255,255,.7)}
+  .frame-polaroid img,.frame-soft img,.frame-plate img{border-radius:1rem;object-fit:cover;width:100%;height:100%}
+
+  #tlMobile::before{content:"";position:absolute;left:.55rem;top:.4rem;bottom:2.4rem;width:.5rem;
+    border-radius:9999px;background:linear-gradient(to bottom,#FBCFE8,#BFDBFE,#A7F3D0)}
+  #tlMobile::after{content:"";position:absolute;left:.3rem;bottom:-1rem;width:1rem;height:1rem;
+    background:#A7F3D0;clip-path:polygon(0 0,100% 0,50% 100%);transform:rotate(45deg)}
+
+  .tabbtn{transition:all .3s ease}
+  .panel{transition:opacity .5s ease}
+  #vol{accent-color:#F9A8C0}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+</style>
+</head>
+<body class="text-slate-600 font-sans antialiased overflow-x-hidden
+  bg-gradient-to-br from-blush via-lilac to-mist min-h-screen">
+
+<!-- 全局漂浮柔光色块（毛玻璃的"背后"要有东西可透） -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+  <div class="absolute -top-32 -left-24 w-[30rem] h-[30rem] rounded-full bg-rose-200/50 blob"></div>
+  <div class="absolute top-1/4 -right-32 w-[26rem] h-[26rem] rounded-full bg-violet-200/50 blob" style="animation-delay:-5s"></div>
+  <div class="absolute bottom-10 left-1/4 w-[24rem] h-[24rem] rounded-full bg-sky-200/50 blob" style="animation-delay:-9s"></div>
+  <div class="absolute top-2/3 right-1/3 w-[20rem] h-[20rem] rounded-full bg-emerald-200/40 blob" style="animation-delay:-12s"></div>
+</div>
+
+<!-- ======= 顶部导航（点菜单跳板块） ======= -->
+<nav class="fixed top-0 inset-x-0 z-50 glass-nav">
+  <div class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-2">
+    <a href="#home" class="font-bold text-slate-700 tracking-wide shrink-0">Eason<span class="text-rose-300">.</span></a>
+    <div class="flex-1 overflow-x-auto no-scrollbar">
+      <div class="flex items-center gap-1 min-w-max mx-auto md:justify-center text-[13.5px]">
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#about">关于我</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#skills">技能爱好</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#finance">知识科普</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#cards">日常抽卡</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#dreams">逐梦目标</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#photos">照片分享</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#radio">心情电台</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#wall">留言墙</a>
+        <a class="navlink px-3 py-1.5 rounded-full hover:bg-white/80 hover:text-slate-800 transition-colors duration-300" href="#contact">联系我</a>
+      </div>
+    </div>
+    <div class="relative shrink-0">
+      <button id="musicBtn" title="背景音乐" aria-label="背景音乐设置"
+        class="w-9 h-9 rounded-full glass hover:bg-white/80 flex items-center justify-center text-slate-500 hover:text-rose-400 transition-all duration-300">
+        <svg id="musicIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </button>
+      <div id="musicPanel" class="hidden absolute right-0 top-11 w-48 glass-strong rounded-2xl p-4 text-sm">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-slate-500 text-xs">轻快纯音乐</span>
+          <button id="musicSwitch" class="text-xs px-3 py-1 rounded-full bg-slate-800 text-white hover:bg-slate-700 transition-colors">开</button>
+        </div>
+        <label class="text-xs text-slate-400">音量</label>
+        <input id="vol" type="range" min="0" max="100" value="40" class="w-full mt-1">
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ======= 1. Hero ======= -->
+<header id="home" class="relative min-h-[100svh] flex items-center overflow-hidden">
+  <div class="relative max-w-6xl mx-auto px-6 pt-24 pb-14 w-full grid lg:grid-cols-[1fr_auto] items-end gap-6">
+    <div class="max-w-xl reveal in">
+      <p class="text-sm tracking-[.3em] text-slate-400 mb-4">WELCOME · 欢迎光临</p>
+      <h1 class="text-4xl md:text-6xl font-bold text-slate-800 leading-tight">
+        欢迎来到<span class="text-rose-400">Eason Ma</span>的小天地
+      </h1>
+      <p class="mt-6 text-xl md:text-2xl text-slate-500 font-light">在专业里深耕，在生活里慢慢感受。</p>
+      <p class="mt-4 text-base text-slate-500 leading-relaxed">
+        这里是我的线上小角落，记录学业成长、项目实践，也收纳旅途、爱好与细碎日常。
+      </p>
+      <a href="#about" class="group inline-flex items-center gap-2 mt-9 px-7 py-3 rounded-full
+        bg-slate-800/90 backdrop-blur text-white text-[15px] shadow-lift hover:bg-slate-700 hover:-translate-y-0.5
+        transition-all duration-300">
+        前往探索
+        <span class="group-hover:translate-y-0.5 transition-transform duration-300">↓</span>
+      </a>
+    </div>
+
+    <!-- 卡通形象（挥手版） -->
+    <div class="mt-6 lg:mt-0 flex justify-center lg:justify-end lg:-mr-2">
+      <div class="relative floaty">
+        <img src="images/avatar.png" alt="Eason 的卡通形象"
+          class="w-[22rem] md:w-[26rem] lg:w-[28rem] xl:w-[34rem] drop-shadow-[0_20px_35px_rgba(120,100,150,.35)]">
+        <span class="absolute -top-1 -left-2 px-3 py-1 rounded-full glass-strong text-xs text-slate-500 rotate-[-6deg]">Hi，我是 Eason 👋</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6">
+
+  <!-- ======= 2. 关于我 ======= -->
+  <section id="about" class="py-16 md:py-20">
+    <div class="reveal">
+      <p class="text-sm tracking-[.3em] text-rose-300 mb-3">ABOUT ME</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">关于我</h2>
+    </div>
+    <div class="mt-10 grid md:grid-cols-[220px_1fr] gap-10 items-start reveal">
+      <div class="mx-auto md:mx-0">
+        <div class="w-44 h-44 md:w-52 md:h-52 rounded-full p-1.5 glass">
+          <img src="images/avatar-photo.jpg" alt="Eason 的头像"
+            class="w-full h-full rounded-full object-cover">
+        </div>
+      </div>
+      <div class="relative">
+        <div class="glass rounded-4xl p-8 md:p-10">
+          <p class="leading-loose text-[17px] text-slate-600">
+            我叫 <b class="text-slate-800">Ma Aozun</b>，英文名 <b class="text-slate-800">Eason</b>，
+            是香港恒生大学一名 <b class="text-sky-500">Finance and Banking</b> 的大四学生。
+            一边沉下心啃专业知识、参与实习实践，一边尽力把日子过得松弛丰富，喜欢参加志愿活动。
+          </p>
+          <p class="leading-loose text-[17px] text-slate-600 mt-4">
+            平时习惯平衡学习与生活，不喜欢过度紧绷，相信<b class="text-emerald-500">持续的小积累</b>远胜过一时的冲刺。
+            空闲的时候我喜欢 Citywalk、爬山散心，也会安静看书、健身，在动静之间找到自己舒服的节奏。
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="px-3 py-1 rounded-full bg-white/70 text-sky-500 text-xs backdrop-blur">香港恒生大学</span>
+            <span class="px-3 py-1 rounded-full bg-white/70 text-rose-400 text-xs backdrop-blur">Finance &amp; Banking</span>
+            <span class="px-3 py-1 rounded-full bg-white/70 text-emerald-500 text-xs backdrop-blur">志愿活动爱好者</span>
+            <span class="px-3 py-1 rounded-full bg-white/70 text-amber-500 text-xs backdrop-blur">Citywalker</span>
+          </div>
+        </div>
+        <figure class="frame-polaroid w-52 md:w-56 mx-auto md:mx-0 md:absolute md:-bottom-32 md:-right-4 lg:-right-12
+            rotate-3 hover:rotate-1 hover:-translate-y-1 transition-transform duration-500 mt-10 md:mt-0">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-amber-100/80 rotate-[-4deg] rounded-sm"></span>
+          <img src="images/about.jpg" alt="Eason 在香港的餐桌前" loading="lazy" class="!rounded-lg aspect-[4/3]">
+          <figcaption class="absolute bottom-2 inset-x-0 text-center text-sm text-slate-500" style="font-family:'Xingkai SC','Kaiti SC','KaiTi',cursive">Eason · 在香港的日常</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 3. 专业与专长（点击放大独占整页） ======= -->
+  <section id="skills" class="py-16 md:py-20">
+    <div class="reveal">
+      <p class="text-sm tracking-[.3em] text-sky-300 mb-3">SKILLS &amp; HOBBIES</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">专业与专长</h2>
+      <p class="mt-3 text-slate-400 text-[15px]">点一个板块，它会放大到整个页面慢慢讲给你听。</p>
+    </div>
+    <div class="mt-10 grid md:grid-cols-2 gap-5" id="skillGrid"></div>
+  </section>
+
+  <!-- ======= 4. 知识科普（金融小课堂 · 蜡笔风） ======= -->
+  <section id="finance" class="py-16 md:py-20">
+    <div class="reveal">
+      <p class="text-sm tracking-[.3em] text-emerald-400 mb-3">FINANCE 101</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">金融小课堂</h2>
+      <p class="mt-3 text-slate-400 text-[15px]">我准备了 30 个金融、经济与股票的小知识，每次进来随机发 6 张牌 —— 点一下卡片就翻过来。</p>
+      <button id="finReroll" class="mt-4 px-5 py-2 rounded-full glass text-sm text-slate-500 hover:text-slate-700
+        hover:bg-white/70 hover:-translate-y-0.5 transition-all duration-300">🔄 换一批</button>
+    </div>
+    <div class="mt-10 grid sm:grid-cols-2 md:grid-cols-3 gap-5" id="financeGrid"></div>
+  </section>
+
+  <!-- ======= 5. 日常抽卡 ======= -->
+  <section id="cards" class="py-16 md:py-20">
+    <div class="reveal text-center max-w-2xl mx-auto">
+      <p class="text-sm tracking-[.3em] text-violet-300 mb-3">DAILY CARDS</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">随机抽取一张我的档案卡</h2>
+      <p class="mt-3 text-slate-400 text-[15px] leading-relaxed">技能、星座、MBTI 与生活兴趣混在同一副牌里，抽一张，再侧面认识我。抽过的卡会摆在右边，不会重复。</p>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-2 gap-10 items-start reveal">
+      <!-- 左：牌堆 -->
+      <div class="flex flex-col items-center">
+        <div id="deck" class="relative w-48 h-64 md:w-56 md:h-72">
+          <div class="deckcard rotate-[-9deg]"></div>
+          <div class="deckcard rotate-[6deg] translate-y-1.5"></div>
+          <div class="deckcard">
+            <div class="absolute inset-3 rounded-[1.1rem] border border-dashed border-violet-200/80 flex flex-col
+                items-center justify-center gap-3 text-center p-4">
+              <span class="w-12 h-12 rounded-full bg-white/80 shadow-soft flex items-center justify-center text-2xl">🂠</span>
+              <p class="text-[11px] tracking-[.35em] text-slate-400">EASON'S DECK</p>
+              <p class="text-xs text-slate-300">还剩 <span id="poolLeft">6</span> 张档案卡</p>
+            </div>
+          </div>
+        </div>
+        <button id="drawBtn" class="mt-8 px-8 py-3 rounded-full bg-slate-800/90 backdrop-blur text-white text-[15px]
+            shadow-lift hover:bg-slate-700 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+          随机抽一张
+        </button>
+        <p class="mt-3 text-xs text-slate-400">已经抽过 <span id="drawCount" class="text-rose-400">0</span> 次</p>
+      </div>
+
+      <!-- 右：抽到的卡摆放区 -->
+      <div id="cardArea" class="min-h-[16rem]">
+        <div class="rounded-4xl border border-dashed border-violet-200/80 glass p-8 text-center h-full min-h-[16rem] flex flex-col items-center justify-center">
+          <span class="text-3xl">🫧</span>
+          <p class="mt-3 text-[15px] text-slate-400">抽到的卡都会摆在这里<br><span class="text-xs">点击小卡可以重新查看详情</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 6. 逐梦目标（视差箭头） ======= -->
+  <section id="dreams" class="py-16 md:py-20">
+    <div class="reveal">
+      <p class="text-sm tracking-[.3em] text-rose-300 mb-3">DREAM TIMELINE</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">逐梦目标<span class="text-slate-300 font-light">｜</span>沿着时间奔赴远方</h2>
+      <p class="mt-3 text-slate-400 text-[15px]">移动鼠标看看这支箭——它会射进屏幕深处。点节点看每个阶段的详细遐想。</p>
+    </div>
+
+    <!-- 桌面：3D 视差弯曲箭头 -->
+    <div id="dreamScene" class="hidden md:block relative mt-10 h-[26rem] reveal">
+      <div id="dreamTilt" class="absolute inset-0">
+        <svg id="dreamSvg" viewBox="0 0 1000 420" class="w-full h-full overflow-visible pointer-events-none">
+          <defs>
+            <linearGradient id="arrowGrad" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#FBCFE8"/>
+              <stop offset=".5" stop-color="#BFDBFE"/>
+              <stop offset="1" stop-color="#A7F3D0"/>
+            </linearGradient>
+            <radialGradient id="portal" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#A7F3D0" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#A7F3D0" stop-opacity="0"/>
+            </radialGradient>
+            <marker id="arrowHead" viewBox="0 0 12 12" refX="9" refY="6"
+              markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M1 1 L11 6 L1 11 Q4.5 6 1 1 Z" fill="#8ED9B8"/>
+            </marker>
+          </defs>
+          <!-- 屏幕深处的"入口"光晕：箭头射进电脑里 -->
+          <circle cx="905" cy="95" r="95" fill="url(#portal)"/>
+          <ellipse cx="905" cy="95" rx="120" ry="42" fill="none" stroke="#A7F3D0" stroke-opacity=".5" stroke-width="1.5" transform="rotate(-14 905 95)"/>
+          <ellipse cx="905" cy="95" rx="86" ry="26" fill="none" stroke="#BFDBFE" stroke-opacity=".55" stroke-width="1.2" transform="rotate(-14 905 95)"/>
+          <!-- 弯曲长箭头主路径 -->
+          <path id="dreamPath" d="M 28 352 C 170 356, 210 210, 400 196 C 560 185, 590 300, 720 268 C 810 245, 850 170, 898 106"
+            fill="none" stroke="url(#arrowGrad)" stroke-width="13" stroke-linecap="round"
+            marker-end="url(#arrowHead)"/>
+          <path d="M 28 352 C 170 356, 210 210, 400 196 C 560 185, 590 300, 720 268 C 810 245, 850 170, 898 106"
+            fill="none" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="3" stroke-linecap="round" class="flowline"/>
+          <!-- 起点箭尾装饰 -->
+          <circle cx="28" cy="352" r="10" fill="#FBCFE8"/>
+          <circle cx="28" cy="352" r="4.5" fill="#fff"/>
+        </svg>
+        <div id="tlDesktop" class="absolute inset-0"></div>
+      </div>
+    </div>
+
+    <!-- 移动端：纵向时间轴 -->
+    <div id="tlMobile" class="md:hidden mt-10 relative pl-8 reveal"></div>
+  </section>
+
+  <!-- ======= 7. 照片分享 ======= -->
+  <section id="photos" class="py-16 md:py-20">
+    <div class="reveal text-center">
+      <p class="text-sm tracking-[.3em] text-amber-300 mb-3">PHOTO ALBUM</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">照片分享</h2>
+      <p class="mt-3 text-slate-400 text-[15px]">点一个相册进去看看，每个相框都有自己的脾气。</p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-2 reveal" id="albumTabs"></div>
+    <div class="mt-8 reveal" id="albumPanels"></div>
+  </section>
+
+  <!-- ======= 8. 心情电台：歌曲 + 天气 + 日历 ======= -->
+  <section id="radio" class="py-16 md:py-20">
+    <div class="reveal">
+      <p class="text-sm tracking-[.3em] text-sky-300 mb-3">MOOD RADIO</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">心情电台<span class="text-slate-300 font-light">｜</span>今天的歌与天气</h2>
+    </div>
+    <div class="mt-10 grid lg:grid-cols-[1.15fr_1fr] gap-5 reveal">
+
+      <!-- 歌曲播放器（点封面/歌词切到歌词页） -->
+      <div class="glass rounded-4xl p-6 md:p-8">
+        <div class="flex items-center gap-5">
+          <button id="discBtn" class="relative shrink-0 group" title="点我在 播放器/歌词 之间切换">
+            <span class="block w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden ring-4 ring-white/70 shadow-lift" id="discWrap">
+              <img id="discImg" src="images/xinqiang-cover.jpg" alt="心墙 封面" class="w-full h-full object-cover"
+                onerror="this.onerror=null;this.src='images/xinqiang-cover.svg'">
+            </span>
+            <span class="absolute inset-0 flex items-center justify-center">
+              <span class="w-7 h-7 rounded-full bg-white/85 shadow flex items-center justify-center text-[10px] text-slate-400">♪</span>
+            </span>
+          </button>
+          <div class="min-w-0 flex-1">
+            <p class="text-[11px] tracking-[.3em] text-amber-400/90 font-bold">CLOUD MUSIC</p>
+            <h3 class="text-2xl font-bold text-slate-800 mt-1">心墙</h3>
+            <p class="text-slate-500 text-[15px]">林俊杰</p>
+          </div>
+        </div>
+
+        <!-- 播放进度 -->
+        <div class="mt-6" id="playerBar">
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span id="tCur">0:00</span>
+            <input id="seek" type="range" min="0" max="1000" value="0" class="flex-1" style="accent-color:#F9A8C0">
+            <span id="tDur">0:00</span>
+          </div>
+          <div class="mt-4 flex items-center justify-center gap-6">
+            <button id="songPlay" class="w-14 h-14 rounded-full bg-amber-400 hover:bg-amber-300 text-white shadow-lift
+              flex items-center justify-center transition-all duration-300 hover:scale-105" title="播放 / 暂停">
+              <svg id="iconPlay" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="iconPause" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="hidden"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+          </div>
+          <p id="songHint" class="hidden mt-3 text-center text-xs text-slate-400">
+            把《心墙》的音频文件命名为 <b>xinqiang.mp3</b> 放进 images 文件夹，播放器就能唱歌啦。
+          </p>
+        </div>
+
+        <!-- 歌词面板 -->
+        <div id="lyricsPanel" class="hidden mt-6">
+          <div class="flex justify-center gap-2 mb-3">
+            <span class="px-5 py-1.5 rounded-full bg-violet-400/90 text-white text-xs">歌词</span>
+            <button id="backPlayer" class="px-5 py-1.5 rounded-full bg-white/70 text-slate-500 text-xs hover:bg-white transition-colors">返回播放器</button>
+          </div>
+          <div class="flex items-center justify-center gap-2 mb-4 text-[11px] text-slate-400">
+            <span>同步微调</span>
+            <button id="lyricSlower" class="px-2.5 py-1 rounded-full bg-white/70 hover:bg-white transition-colors" title="歌词慢一点">◀ 慢</button>
+            <span id="lyricOffset" class="px-2 py-1 rounded-full bg-slate-100 text-slate-500 tabular-nums">+18.0s</span>
+            <button id="lyricFaster" class="px-2.5 py-1 rounded-full bg-white/70 hover:bg-white transition-colors" title="歌词快一点">快 ▶</button>
+            <button id="lyricReset" class="px-2.5 py-1 rounded-full bg-white/70 hover:bg-white transition-colors" title="恢复默认">复位</button>
+          </div>
+          <div id="lyricList" class="h-56 overflow-y-auto no-scrollbar text-center space-y-3 py-2"></div>
+        </div>
+      </div>
+
+      <!-- 天气 + 日历 -->
+      <div class="flex flex-col gap-5">
+        <div class="glass rounded-4xl p-6 md:p-8">
+          <div class="flex items-center justify-between">
+            <p class="flex items-center gap-2 font-bold text-slate-700"><span>📍</span>香港 <span class="text-xs font-normal text-slate-400" id="wxDesc">加载中…</span></p>
+            <span class="text-[11px] px-2.5 py-1 rounded-full bg-white/60 text-slate-400">实时天气</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div>
+              <p class="text-6xl font-light text-slate-800 leading-none"><span id="wxTemp">--</span><span class="text-2xl align-top">°</span></p>
+              <p class="mt-2 text-sm text-slate-500">最高 <span id="wxMax">--</span>° · 最低 <span id="wxMin">--</span>°</p>
+            </div>
+            <div class="w-20 h-20 rounded-3xl bg-white/60 flex items-center justify-center text-4xl" id="wxIcon">🌤</div>
+          </div>
+          <div class="mt-5 pt-4 border-t border-white/60">
+            <p class="text-xs text-slate-400 mb-2">逐小时预报</p>
+            <div class="grid grid-cols-6 gap-2 text-center" id="wxHourly"></div>
+          </div>
+          <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="rounded-2xl bg-white/50 py-2.5"><p class="text-slate-400">体感</p><p class="text-slate-600 font-medium mt-0.5"><span id="wxFeels">--</span>°</p></div>
+            <div class="rounded-2xl bg-white/50 py-2.5"><p class="text-slate-400">湿度</p><p class="text-slate-600 font-medium mt-0.5"><span id="wxHum">--</span>%</p></div>
+            <div class="rounded-2xl bg-white/50 py-2.5"><p class="text-slate-400">风速</p><p class="text-slate-600 font-medium mt-0.5"><span id="wxWind">--</span> km/h</p></div>
+          </div>
+        </div>
+
+        <div class="glass rounded-4xl p-6 md:p-8">
+          <p class="font-bold text-slate-800 text-lg" id="calTitle">2026年10月</p>
+          <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-400 mt-4 mb-1">
+            <span class="text-rose-300">日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span class="text-sky-300">六</span>
+          </div>
+          <div class="grid grid-cols-7 gap-1 text-center text-[15px]" id="calGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 9. 留言墙 ======= -->
+  <section id="wall" class="py-16 md:py-20">
+    <div class="reveal max-w-3xl mx-auto text-center">
+      <p class="text-sm tracking-[.3em] text-violet-300 mb-3">MESSAGE WALL</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">留言墙</h2>
+      <p class="mt-3 text-slate-400 text-[15px]">留下你的足迹，每一张便签都是一份温暖。</p>
+    </div>
+
+    <div class="mt-8 glass rounded-4xl p-6 md:p-8 reveal">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input id="wallName" maxlength="12" placeholder="你的昵称（可留空）"
+          class="w-full sm:w-44 px-4 py-2.5 rounded-2xl bg-white/70 border border-white text-slate-600 text-[15px] placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-200 transition">
+        <input id="wallText" maxlength="60" placeholder="写一句想对我说的话吧…"
+          class="flex-1 px-4 py-2.5 rounded-2xl bg-white/70 border border-white text-slate-600 text-[15px] placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-200 transition">
+        <button id="wallPost" class="px-7 py-2.5 rounded-2xl bg-slate-800/90 backdrop-blur text-white text-[15px] shadow-soft hover:bg-slate-700 hover:-translate-y-0.5 transition-all duration-300">贴上去</button>
+      </div>
+    </div>
+
+    <div id="wallGrid" class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6 reveal"></div>
+  </section>
+
+  <!-- ======= 10. 联系我（两侧烟花） ======= -->
+  <section id="contact" class="py-16 md:py-20 relative">
+    <canvas id="fwCanvas" class="absolute inset-0 w-full h-full pointer-events-auto" aria-hidden="true"></canvas>
+    <div class="relative reveal text-center max-w-xl mx-auto pointer-events-none">
+      <p class="text-sm tracking-[.3em] text-sky-300 mb-3">CONTACT</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-800">联系我</h2>
+      <p class="mt-4 text-[17px] text-slate-500 leading-relaxed">如果想交流、或者只是打个招呼，欢迎给我发送邮件。<br><span class="text-xs text-slate-400">（悄悄告诉你：把鼠标凑到两边的烟花上，会有惊喜）</span></p>
+    </div>
+    <div class="relative mt-10 grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto reveal pointer-events-none">
+      <a href="mailto:s235125@hsu.edu.hk" class="group glass rounded-4xl p-7
+          hover:-translate-y-1 hover:shadow-lift transition-all duration-500 text-center">
+        <span class="w-12 h-12 mx-auto rounded-2xl bg-white/70 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">🎓</span>
+        <p class="mt-4 text-xs text-slate-400">学校邮箱</p>
+        <p class="mt-1 font-medium text-slate-700 break-all">s235125@hsu.edu.hk</p>
+      </a>
+      <a href="mailto:maaozun@qq.com" class="group glass rounded-4xl p-7
+          hover:-translate-y-1 hover:shadow-lift transition-all duration-500 text-center">
+        <span class="w-12 h-12 mx-auto rounded-2xl bg-white/70 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">📮</span>
+        <p class="mt-4 text-xs text-slate-400">个人邮箱</p>
+        <p class="mt-1 font-medium text-slate-700 break-all">maaozun@qq.com</p>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="pb-10 text-center text-xs text-slate-400">
+  用心搭的小角落 · Eason Ma © 2026 · 愿我们都在专业里深耕，在生活里慢慢感受
+</footer>
+
+<!-- ======= 通用放大弹层 ======= -->
+<div id="modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-4 md:p-8">
+  <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-md" data-close></div>
+  <div class="glass-strong relative w-full max-w-3xl max-h-[86vh] overflow-y-auto rounded-4xl p-8 md:p-12">
+    <button data-close class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow-soft
+      flex items-center justify-center text-slate-500 hover:text-rose-400 transition-all duration-300 text-lg">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 灯箱 -->
+<div id="lightbox" class="fixed inset-0 z-[90] hidden items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
+  <figure class="bg-white/95 rounded-3xl p-3 max-w-3xl w-full shadow-lift" onclick="event.stopPropagation()">
+    <img id="lbImg" src="" alt="" class="w-full max-h-[72vh] object-contain rounded-2xl bg-slate-50">
+    <figcaption id="lbCap" class="text-center text-sm text-slate-500 py-3"></figcaption>
+  </figure>
+</div>
+
+<script>
+/* =========================================================
+   通用放大弹层
+========================================================= */
+var modal = document.getElementById('modal');
+var modalBody = document.getElementById('modalBody');
+function openModal(html){
+  modalBody.innerHTML = html;
+  modal.classList.remove('hidden'); modal.classList.add('flex');
+  modal.querySelector('.glass-strong').scrollTop = 0;
+}
+function closeModal(){
+  modal.classList.add('hidden'); modal.classList.remove('flex');
+  modalBody.innerHTML = '';
+}
+modal.addEventListener('click', function(e){ if(e.target.closest('[data-close]')) closeModal(); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+/* =========================================================
+   背景轻音乐 v2 —— 更欢快的清晨漫步（WebAudio 生成，无外链）
+========================================================= */
+var music = (function(){
+  var ac = null, master = null, timer = null, playing = false;
+  var vol = 0.4;
+  /* C – G – Am – F 大调和弦进行，明亮轻快 */
+  var CHORDS = [
+    [130.81, 261.63, 329.63, 392.00],
+    [98.00, 246.94, 293.66, 392.00],
+    [110.00, 220.00, 261.63, 329.63],
+    [87.31, 261.63, 349.23, 440.00]
+  ];
+  var PENTA = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66];
+  function ensure(){
+    if(ac) return;
+    ac = new (window.AudioContext || window.webkitAudioContext)();
+    master = ac.createGain(); master.gain.value = vol;
+    var delay = ac.createDelay(); delay.delayTime.value = 0.22;
+    var fb = ac.createGain(); fb.gain.value = 0.22;
+    var wet = ac.createGain(); wet.gain.value = 0.18;
+    master.connect(ac.destination);
+    master.connect(delay); delay.connect(fb); fb.connect(delay);
+    delay.connect(wet); wet.connect(ac.destination);
+  }
+  function pad(freq, t){
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sine'; o.frequency.value = freq;
+    o.detune.value = (Math.random() * 6 - 3);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(0.035, t + 0.9);
+    g.gain.linearRampToValueAtTime(0.0001, t + 4.6);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + 5);
+  }
+  function bass(freq, t){
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sine'; o.frequency.value = freq / 2;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(0.05, t + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + 0.55);
+  }
+  function pluck(freq, t, v){
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'triangle'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(v || 0.055, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + 1);
+  }
+  function loop(){
+    var bar = ac.currentTime + 0.05;
+    var ci = music._ci = ((music._ci || 0) + 1) % CHORDS.length;
+    var ch = CHORDS[ci];
+    ch.slice(1).forEach(function(f){ pad(f, bar); });
+    /* 轻快的低音点 */
+    bass(ch[0], bar); bass(ch[0], bar + 1.5); bass(ch[0] * 1.5, bar + 3);
+    /* 跳跃的五声音阶拨弦 */
+    for(var i = 0; i < 8; i++){
+      if(Math.random() < 0.82){
+        pluck(PENTA[Math.floor(Math.random() * PENTA.length)],
+          bar + i * 0.62 + Math.random() * 0.08,
+          i % 4 === 0 ? 0.06 : 0.04);
+      }
+    }
+  }
+  return {
+    start: function(){
+      ensure();
+      if(ac.state === 'suspended') ac.resume();
+      if(playing) return;
+      playing = true;
+      master.gain.cancelScheduledValues(ac.currentTime);
+      master.gain.setValueAtTime(0.0001, ac.currentTime);
+      master.gain.linearRampToValueAtTime(vol, ac.currentTime + 1);
+      loop(); timer = setInterval(loop, 5000);
+    },
+    stop: function(){
+      if(!playing) return;
+      playing = false;
+      clearInterval(timer); timer = null;
+      var t = ac.currentTime;
+      master.gain.cancelScheduledValues(t);
+      master.gain.setValueAtTime(master.gain.value, t);
+      master.gain.linearRampToValueAtTime(0.0001, t + 0.7);
+    },
+    isPlaying: function(){ return playing; },
+    setVol: function(v){
+      vol = v;
+      if(master && playing){
+        var t = ac.currentTime;
+        master.gain.cancelScheduledValues(t);
+        master.gain.linearRampToValueAtTime(Math.max(0.0001, v), t + 0.2);
+      }
+    }
+  };
+})();
+
+var musicBtn = document.getElementById('musicBtn');
+var musicPanel = document.getElementById('musicPanel');
+var musicSwitch = document.getElementById('musicSwitch');
+var volInput = document.getElementById('vol');
+function refreshMusicUI(){
+  var on = music.isPlaying();
+  musicSwitch.textContent = on ? '关' : '开';
+  musicSwitch.className = 'text-xs px-3 py-1 rounded-full transition-colors ' +
+    (on ? 'bg-rose-300 text-white hover:bg-rose-400' : 'bg-slate-800 text-white hover:bg-slate-700');
+  musicBtn.classList.toggle('text-rose-400', on);
+  musicBtn.classList.toggle('text-slate-500', !on);
+}
+musicBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  musicPanel.classList.toggle('hidden');
+});
+document.addEventListener('click', function(e){
+  if(!musicPanel.classList.contains('hidden') && !musicPanel.contains(e.target) && e.target !== musicBtn){
+    musicPanel.classList.add('hidden');
+  }
+});
+musicSwitch.addEventListener('click', function(){
+  if(music.isPlaying()){ music.stop(); } else { music.start(); }
+  refreshMusicUI();
+});
+volInput.addEventListener('input', function(){ music.setVol(this.value / 100); });
+/* 浏览器不允许自动播放：第一次任意点击后轻声响起 */
+document.addEventListener('pointerdown', function first(e){
+  document.removeEventListener('pointerdown', first);
+  if(e.target.closest && e.target.closest('#musicPanel,#musicBtn')) return;
+  if(!music.isPlaying()){ music.start(); refreshMusicUI(); }
+});
+refreshMusicUI();
+
+/* =========================================================
+   WebAudio 音效：抽卡、弹层
+========================================================= */
+var sfx = (function(){
+  var ac = null;
+  function ctx(){
+    if(!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+    if(ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function noise(dur, freq, q, volv){
+    var a = ctx(), t = a.currentTime;
+    var len = Math.max(1, (dur * a.sampleRate) | 0);
+    var buf = a.createBuffer(1, len, a.sampleRate);
+    var d = buf.getChannelData(0);
+    for(var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    var src = a.createBufferSource(); src.buffer = buf;
+    var bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = q;
+    var g = a.createGain();
+    g.gain.setValueAtTime(volv, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(bp); bp.connect(g); g.connect(a.destination);
+    src.start(t); src.stop(t + dur);
+  }
+  function tone(freq, dur, volv, type, t0){
+    var a = ctx(), t = a.currentTime + (t0 || 0);
+    var o = a.createOscillator(), g = a.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(volv, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(a.destination);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  return {
+    /* 抽卡：唰——啪 */
+    draw: function(){
+      try{
+        noise(0.22, 2200, 0.8, 0.20);
+        setTimeout(function(){ noise(0.05, 3200, 2, 0.30); tone(880, 0.09, 0.12, 'triangle', 0); }, 160);
+      }catch(e){}
+    },
+    pop: function(){
+      try{ tone(520, 0.12, 0.08, 'sine', 0); tone(780, 0.14, 0.06, 'sine', 0.05); }catch(e){}
+    },
+    /* 翻卡：纸张摩擦 */
+    flip: function(){
+      try{ noise(0.13, 1500, 1.1, 0.13); tone(660, 0.1, 0.05, 'sine', 0.03); }catch(e){}
+    }
+  };
+})();
+
+/* =========================================================
+   滚动浮现（提前声明，供各板块 builder 使用）
+========================================================= */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+/* =========================================================
+   专业与专长：点卡片 → 放大独占整页
+========================================================= */
+var SKILLS = [
+  {
+    icon: '🌱', tone: 'bg-white/60 text-sky-400', chip: 'bg-mist', chipText: 'text-sky-500',
+    title: '目前深耕方向', brief: '金融及银行学大四在读 · 朝 CFA / FRM / CPA 积累',
+    html: '<p class="text-[17px] leading-loose">香港恒生大学 · 金融及银行学（Finance and Banking）大四在读，主修课程覆盖：</p>' +
+      '<div class="flex flex-wrap gap-2 mt-4 text-sm">' +
+      ['西方经济学','中级 / 高级财务会计','国际金融','金融市场与形势','会计电算化','市场营销学','金融科技 FinTech']
+        .map(function(c){ return '<span class="px-3 py-1 rounded-full bg-mist/80 text-sky-500">'+c+'</span>'; }).join('') +
+      '</div><p class="mt-5 text-[17px] leading-loose">正朝着 <b class="text-slate-700">CFA · FRM · CPA</b> 的方向积累，希望毕业后继续攻读研究生，在金融领域走得更深更稳。</p>'
+  },
+  {
+    icon: '🧭', tone: 'bg-white/60 text-emerald-400',
+    title: '实践经历', brief: '兴业证券 · 佳能 · CSSA · 义工 240 小时',
+    html: '<ul class="space-y-4 text-[17px] leading-loose">' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span><b class="text-slate-700">兴业证券 · 实习</b>｜走访商会核心企业客户，对接机构开户与对公资产配置；参与大客户沟通与投研培训，每日跟踪大盘行情。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span><b class="text-slate-700">佳能 · 市场部 / 行政部实习</b>｜撰写脚本并拍摄制作视频、年会主持、项目 PPT 汇总、客户拜访与财政数据整理。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span><b class="text-slate-700">CSSA 秘书部 &amp; 书院副主席</b>｜名单账单管理、会议总结与部门协调；策划组织书院活动与海报宣传。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span><b class="text-slate-700">其他</b>｜华为内部交流培训探访；深圳义工累计 240 小时（车管所、书城、地铁等）。</span></li></ul>'
+  },
+  {
+    icon: '🧰', tone: 'bg-white/60 text-amber-400',
+    title: '技能清单', brief: 'Office · 视频制作 · 主持表达 · 组织协调',
+    html: '<div class="grid sm:grid-cols-2 gap-4 text-[17px]">' +
+      '<div class="rounded-3xl bg-butter/70 px-5 py-4"><b class="text-slate-700">Office 三件套</b><p class="text-[15px] text-slate-400 mt-1">Excel 函数统计 · PPT 制作 · Word 排版</p></div>' +
+      '<div class="rounded-3xl bg-blush/70 px-5 py-4"><b class="text-slate-700">视频制作</b><p class="text-[15px] text-slate-400 mt-1">脚本撰写 · 拍摄 · 剪辑</p></div>' +
+      '<div class="rounded-3xl bg-mist/80 px-5 py-4"><b class="text-slate-700">主持表达</b><p class="text-[15px] text-slate-400 mt-1">活动主持 · 稿件撰写 · 临场应变</p></div>' +
+      '<div class="rounded-3xl bg-lilac/80 px-5 py-4"><b class="text-slate-700">组织协调</b><p class="text-[15px] text-slate-400 mt-1">团队协作 · 对外沟通 · 活动策划</p></div></div>'
+  },
+  {
+    icon: '🛠️', tone: 'bg-white/60 text-rose-400',
+    title: '小项目产出', brief: '出门三宝 · 投教海报 · 活动物料 · 这个网站',
+    html: '<ul class="space-y-4 text-[17px] leading-loose">' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-rose-300 shrink-0"></span><span><b class="text-slate-700">「出门三宝」创意产品</b>｜与岭南大学联合举办活动中负责产品发明设计与讲解，获得第三名。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-rose-300 shrink-0"></span><span><b class="text-slate-700">投资者教育系列海报</b>｜实习期间完成金融科普向的设计产出。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-rose-300 shrink-0"></span><span><b class="text-slate-700">活动宣传物料</b>｜书院活动的海报设计与宣传策划。</span></li>' +
+      '<li class="flex gap-3"><span class="mt-3 w-1.5 h-1.5 rounded-full bg-rose-300 shrink-0"></span><span><b class="text-slate-700">这个小网站</b>｜一边学一边搭的线上小角落，也就是你现在看到的页面。</span></li></ul>'
+  }
+];
+(function buildSkills(){
+  var grid = document.getElementById('skillGrid');
+  SKILLS.forEach(function(s, i){
+    var d = document.createElement('button');
+    d.className = 'glass rounded-4xl p-7 md:p-8 text-left hover:-translate-y-1 hover:shadow-lift ' +
+      'hover:bg-white/60 transition-all duration-500 group cursor-pointer reveal';
+    d.innerHTML =
+      '<h3 class="flex items-center justify-between font-bold text-slate-800 text-lg">' +
+        '<span class="flex items-center gap-2"><span class="w-9 h-9 rounded-2xl bg-white/70 flex items-center justify-center">'+s.icon+'</span>'+s.title+'</span>' +
+        '<span class="text-xs text-slate-400 group-hover:text-slate-500 transition-colors">展开 ⤢</span></h3>' +
+      '<p class="mt-3 text-[15px] text-slate-500 leading-relaxed">'+s.brief+'</p>';
+    d.addEventListener('click', function(){
+      sfx.pop();
+      openModal('<p class="text-sm tracking-[.3em] text-slate-400 mb-2">SKILL 0'+(i+1)+'</p>' +
+        '<h3 class="text-3xl font-bold text-slate-800 flex items-center gap-3"><span class="w-12 h-12 rounded-3xl bg-white/70 flex items-center justify-center text-2xl">'+s.icon+'</span>'+s.title+'</h3>' +
+        '<div class="mt-6 text-slate-600">'+s.html+'</div>');
+    });
+    grid.appendChild(d);
+    io.observe(d);
+  });
+})();
+
+/* =========================================================
+   金融小课堂（蜡笔风背景）
+========================================================= */
+/* 30 个金融 / 经济 / 股票小知识库 */
+var KNOWLEDGE = [
+  { icon: '⛄', title: '复利效应', text: '把利息留在里面继续生利息，就是复利，像滚雪球。1000 元按年化 5% 放着不动，30 年后大约变成 4321 元；如果每年再存 1000 元，30 年后本息能到 7 万左右。所以理财里最重要的不是一次赚多少，而是早点开始、别中途停下来。' },
+  { icon: '💸', title: '通货膨胀', text: '同样 100 块，按每年 3% 的通胀算，十年后只能买到今天 74 块左右的东西——钱在悄悄变薄。所以"把钱藏在床底下"其实也在亏钱。理财的第一步不是赚多少，而是让资产的增速跑赢通胀。' },
+  { icon: '🏪', title: '股票是什么', text: '买一只股票，就是买下这家公司极小的一份所有权，相当于合伙做生意。你能靠两件事赚钱：公司越赚越多、股价跟着上涨；以及公司把利润分给你的"分红"。但它也会跌，所以要用三五年内用不到的闲钱去买。' },
+  { icon: '🧺', title: '基金是什么', text: '基金就是把很多人的钱凑在一起，请专业经理去买入一篮子股票或债券。你花几百块就能同时持有几十家公司，比自己单买一只股票稳得多。它收一点管理费，换来的是省心与分散。' },
+  { icon: '🏦', title: '存款、理财、投资', text: '存款最安全、随时能取，但利息低；理财收益稍高，通常有期限、也可能浮动；投资（股票、基金）长期收益最高，但短期会涨跌。三者的关系很朴素：想要更高的收益，就得接受更大的波动和更长的等待。' },
+  { icon: '🆘', title: '应急金', text: '开始投资之前，先留一笔能覆盖 3–6 个月生活开销的钱，放在货币基金或活期里随时可取。它的作用不是赚钱，而是在失业、生病、突发支出时不至于被迫割肉卖掉手上的资产。这是所有理财计划的地基。' },
+  { icon: '🥚', title: '分散投资', text: '不要把鸡蛋放在同一个篮子里。把钱分散到不同行业、不同地区、不同类型的资产（股票、债券、现金），整体波动会明显变小：一个跌的时候另一个可能涨，组合就不会被单只标的的坏消息打垮。' },
+  { icon: '⚖️', title: '风险与收益', text: '这是金融里最硬的一条规律：高收益一定对应高风险。凡是宣传"年化 20%、保本保息"的产品，几乎可以确定是骗局——因为如果真有这种好事，银行早就抢着做了。看到高收益，先问一句"风险在哪"。' },
+  { icon: '📜', title: '债券', text: '债券就是一张借条：你把钱借给政府或企业，他们按约定付你利息，到期还本金。因为还钱顺序排在股东前面，它的风险通常低于股票，收益也比较稳，是投资组合里用来"压舱"的部分。' },
+  { icon: '📈', title: '单利与复利', text: '单利只按最初的本金算利息：1 万元年息 5%，每年固定 500 元。复利是利息也加入本金再生息：第二年按 10500 元计息，越往后差距越大。十年后单利总共 5000 元，复利约 6289 元——时间越长，复利的优势越夸张。' },
+  { icon: '⏳', title: '市盈率 PE', text: '市盈率 = 股价 ÷ 每股收益，可以理解成"按现在的赚钱速度，几年能回本"。PE 20 大约就是 20 年。它只在同行业之间比较才有意义，银行 6 倍不一定比科技股 30 倍更便宜，还要看公司是不是还在成长。' },
+  { icon: '🧾', title: '分红与股息', text: '公司赚钱后，可以把一部分利润直接分给股东，这叫分红；分红金额除以股价就是股息率。稳定分红的公司通常生意成熟、现金流健康，像一只会下蛋的鸡。但要注意：分红会把股价相应调低，并不是白拿的钱。' },
+  { icon: '🐂', title: '牛市与熊市', text: '市场整体从低点上涨超过 20%，通常被称为牛市；从高点下跌超过 20%，就是熊市。名字来自牛角向上挑、熊掌向下拍。熊市并不可怕，可怕的是在熊市最低点因为害怕而全部卖掉——那才是真正把亏损锁死。' },
+  { icon: '🪙', title: '基金定投', text: '定投就是固定时间、固定金额买入（比如每月 1 号买 500 元）。价格高时买到的份额少、价格低时买到的份额多，长期下来成本被自动摊平，也不用费心猜什么时候是低点。它最适合没时间盯盘、又想长期积累的人。' },
+  { icon: '🛍️', title: 'CPI 是什么', text: 'CPI 是居民消费价格指数，政府每月跟踪一篮子日常商品（米面油、房租、交通、医疗）的价格变化。CPI 涨得快，说明生活成本上升、钱变薄；它也是央行决定加息还是降息的重要参考。' },
+  { icon: '🌍', title: 'GDP 是什么', text: 'GDP 是一个国家或地区在一年内生产的所有最终产品和服务的总价值，可以粗略理解为"这一年大家一共创造了多少财富"。GDP 增速高，通常意味着企业赚钱更容易、就业更旺，股市的长期表现也往往与之相关。' },
+  { icon: '💱', title: '汇率', text: '汇率就是一种钱换另一种钱的价钱。本币贬值，出口的东西变便宜、利好出口企业，但进口商品（比如留学、海淘）变贵；升值则相反。做跨境投资时，即使标的涨了，汇率波动也可能吃掉你的收益。' },
+  { icon: '🏛️', title: '银行怎么赚钱', text: '银行的核心生意是"存贷差"：用较低的利息吸收存款，再用较高的利息把钱贷出去，中间的差价就是它的利润。所以央行一降息，银行的放贷利息和存款利息往往一起降，息差变化会直接影响银行的盈利。' },
+  { icon: '💳', title: '信用卡的坑', text: '信用卡最方便也最容易踩坑的地方是"最低还款"。只还最低额，剩余部分会按日计息并且利滚利，年化实际成本常常超过 15%。正确做法：每月全额还清，或者只刷当月还得起的金额，把它当支付工具而不是借款工具。' },
+  { icon: '🛡️', title: '保险保什么', text: '保险的作用不是赚钱，而是把"承受不起的大风险"转移出去。优先配置的顺序一般是：医保 → 百万医疗 → 意外险 → 重疾/定期寿险。先保大风险，再考虑带理财性质的产品，别被"又能保障又能返钱"的话术带偏。' },
+  { icon: '🕳️', title: '负债也会复利', text: '复利既能帮你，也能吃掉你。网贷、信用卡分期看起来每月只还一点点，但算上手续费和服务费，真实年化成本可能超过 20%–30%。判断标准很简单：如果借款利率高于你投资能稳定拿到的收益，那么优先还债就是最好的投资。' },
+  { icon: '🏠', title: '资产与负债', text: '判断一件事是不是"资产"，只看一条：它让钱流进你的口袋，还是流出你的口袋。能带来租金或分红的房子、股票是资产；每月要还贷、交保养费的自用车辆更接近负债。买房自住还是投资，答案往往就藏在这条现金流方向上。' },
+  { icon: '☕', title: '拿铁因子', text: '拿铁因子指的是那些不起眼的小额消费：一杯 35 元的咖啡、一次冲动的外卖。每天一杯，一年就是一万多元；如果把它按月定投到年化 6% 的产品里，二十年后大约是 40 万。省钱不是不喝咖啡，而是先看清哪些花销你其实并不在意。' },
+  { icon: '🧠', title: '心理账户', text: '同样是 1000 元，工资攒下来的我们会精打细算，意外之财或退税却容易随手花掉——这就是心理账户。破解方法很简单：不管钱从哪来，都放进同一个"账户"里统一规划，先留储蓄与投资，剩下的才是可以花的钱。' },
+  { icon: '🎬', title: '沉没成本', text: '沉没成本是已经花出去、再也收不回来的钱和时间。看了一半的烂电影、买了一段时间的亏损股票，很多人会因为"已经投入了这么多"而继续投入。理性做法只看未来：从现在起，它还能带来回报吗？不能就及时止损。' },
+  { icon: '🚪', title: '机会成本', text: '机会成本是你做这个选择时，放弃掉的次优选择的价值。花两小时排队买打折商品，机会成本可能是这两小时本可以用来学习或休息；把钱全放在活期，机会成本是它本可以拿到的长期收益。看清机会成本，很多纠结会自己解开。' },
+  { icon: '📊', title: '供需决定价格', text: '价格本质上由供给和需求共同决定：想买的人多、东西少，价格就涨；反之就跌。演唱会门票、节假日机票、热门地段的房子，涨价的背后都是同一条规律。理解它，你就能看懂很多"为什么又贵了"的新闻。' },
+  { icon: '🏷️', title: '打折与锚定效应', text: '商家先标高价再打五折，你会觉得"太划算了"——这就是锚定效应：第一眼看到的价格成了参照物。破解方法是在下单前问自己：如果没有原价对比，我还愿意花这个钱吗？列清单、设预算，比临场判断靠谱得多。' },
+  { icon: '📒', title: '现金流与记账', text: '个人理财和企业一样看现金流：收入 − 支出 = 结余。记账不是为了苛刻自己，而是搞清楚钱到底去了哪里。坚持记三个月，你通常会发现一两笔"原来花这么多"的支出，把它砍掉，储蓄率立刻就上来了。' },
+  { icon: '🐖', title: '先支付给自己', text: '存钱最有效的一招是"先支付给自己"：发工资当天就把计划储蓄的部分自动转走，剩下的才用来花。靠月底剩下的钱存钱，大多数人最后会发现什么都没剩下。把储蓄变成默认动作，而不是靠意志力的选择。' }
+];
+(function buildFinance(){
+  var grid = document.getElementById('financeGrid');
+  function pick(){
+    var arr = KNOWLEDGE.slice();
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr.slice(0, 6);
+  }
+  function render(){
+    grid.innerHTML = '';
+    pick().forEach(function(f, i){
+      var d = document.createElement('div');
+      d.className = 'flipcard reveal h-[23rem] cursor-pointer';
+      d.innerHTML =
+        '<div class="flipinner h-full">' +
+          /* 正面：蜡笔风牌背 */
+          '<div class="fface glass rounded-4xl flex flex-col items-center justify-center gap-3 text-center p-6">' +
+            '<div class="absolute inset-x-0 top-0 h-24 rounded-t-4xl" style="background:url(images/crayon-bg.png) center/cover;opacity:.9"></div>' +
+            '<span class="relative text-4xl drop-shadow">' + f.icon + '</span>' +
+            '<p class="relative text-[11px] tracking-[.3em] text-slate-400">FIN · 101</p>' +
+            '<p class="relative text-[15px] text-slate-500">第 ' + (i + 1) + ' 张 · 点我翻开</p>' +
+          '</div>' +
+          /* 背面：知识点 */
+          '<div class="fface back glass-strong rounded-4xl p-6 flex flex-col">' +
+            '<p class="text-[11px] tracking-[.3em] text-emerald-400">KNOWLEDGE</p>' +
+            '<h3 class="mt-1 font-bold text-slate-800 text-lg flex items-center gap-2">' + '<span>' + f.icon + '</span>' + f.title + '</h3>' +
+            '<p class="fscroll mt-3 text-[15px] leading-relaxed text-slate-600 flex-1">' + f.text + '</p>' +
+            '<p class="mt-2 text-xs text-slate-400">再点一次可以翻回去 ↺</p>' +
+          '</div>' +
+        '</div>';
+      d.addEventListener('click', function(){
+        d.classList.toggle('flipped');
+        sfx.flip();
+      });
+      grid.appendChild(d);
+      io.observe(d);
+    });
+  }
+  render();
+  document.getElementById('finReroll').addEventListener('click', function(){
+    sfx.flip(); render();
+  });
+})();
+
+/* =========================================================
+   日常抽卡：音效 + 抽到的卡摆右边 + 详情弹窗 + 不重复
+========================================================= */
+var CARDS = [
+  { icon: '✈️', tone: 'from-sky-100', text: 'text-sky-500', title: '旅行 & 漫步', brief: '去过国内 18 个省份、7 个国家。',
+    detail: '旅行能让我好好享受大自然，接触认识到不同的人。更能让我摆脱自己的文化、阶层和成长环境带来的限制，去不断地探索世界充满的未知可能性。' },
+  { icon: '🏋️', tone: 'from-rose-100', text: 'text-rose-500', title: '健身', brief: '接触健身四个月，从想变强壮开始。',
+    detail: '一开始的目的是让自己变得强壮一些、塑形让身材更好看。但到后面我发现健身更是一种精神的力量，推着我向前，减少内耗重新找回自己，勇敢面对自己的不足，不断磨练自己。' },
+  { icon: '📚', tone: 'from-amber-100', text: 'text-amber-500', title: '阅读', brief: '从小喜欢读书，家里有五百多本书。',
+    detail: '阅读能让我感到快乐，让我不断地去思考。每当我有烦恼的时候，我会通过阅读使自己短暂地忘记烦恼、静下心来；当我阅读完之后，烦恼也会随之消除。' },
+  { icon: '🌿', tone: 'from-emerald-100', text: 'text-emerald-500', title: '日常解压', brief: 'Citywalk 和爬山，两种充电方式。',
+    detail: '一个是 Citywalk，去商场以及街边走走，看看行色匆匆的人、繁华的街道以及林立的高楼大厦。另一个是爬山，压力非常大的时候，通过爬山不断消耗体力，当感到疲惫的时候，压力也会随之烟消云散。' },
+  { icon: '♏', tone: 'from-violet-100', text: 'text-violet-500', title: '星座 · 天蝎座', brief: '天蝎座男生，外冷内热的那种。',
+    detail: '天蝎男的关键词：目标感强、专注且深情，认定的事会坚持到底；直觉敏锐，善于观察，却习惯把心思藏得比较深；对陌生人慢热，对在意的人却非常护短。表面云淡风轻，内心早就把计划排好了。' },
+  { icon: '🧠', tone: 'from-slate-200', text: 'text-slate-500', title: 'MBTI · INTJ', brief: '建筑师型人格，规划控。',
+    detail: 'INTJ 常被形容为「建筑师」：独立、理性、喜欢先把事情想清楚再动手；擅长做长期规划，习惯把大目标拆成小步骤一步步推进；朋友不在多，在于深；看起来安静，脑子里其实一直在搭系统。' }
+];
+var pool = CARDS.slice();
+var drawn = [];
+var deck = document.getElementById('deck');
+var cardArea = document.getElementById('cardArea');
+var drawBtn = document.getElementById('drawBtn');
+var drawCount = document.getElementById('drawCount');
+var poolLeft = document.getElementById('poolLeft');
+var count = 0;
+
+function miniCardHTML(c, idx){
+  return '<button data-card="'+idx+'" class="rounded-3xl glass p-5 flex flex-col items-center gap-2 ' +
+    'hover:-translate-y-1 hover:shadow-lift hover:bg-white/70 transition-all duration-400 cursor-pointer">' +
+    '<span class="w-11 h-11 rounded-2xl bg-white/80 flex items-center justify-center text-2xl">'+c.icon+'</span>' +
+    '<span class="text-sm font-medium text-slate-600">'+c.title+'</span></button>';
+}
+function cardModalHTML(c){
+  return '<p class="text-sm tracking-[.3em] text-slate-400 mb-2">EASON&apos;S CARD</p>' +
+    '<h3 class="text-3xl font-bold text-slate-800 flex items-center gap-3">' +
+    '<span class="w-14 h-14 rounded-3xl bg-gradient-to-br '+c.tone+' to-white flex items-center justify-center text-3xl">'+c.icon+'</span>' +
+    c.title + '</h3>' +
+    '<p class="mt-4 text-[17px] text-slate-500 font-medium">'+c.brief+'</p>' +
+    '<p class="mt-4 text-[17px] leading-loose text-slate-600 pt-4 border-t border-white/70">'+c.detail+'</p>';
+}
+drawBtn.addEventListener('click', function(){
+  if(pool.length === 0){
+    pool = CARDS.slice(); drawn = []; count = 0;
+    drawCount.textContent = 0;
+    cardArea.innerHTML = '<div class="rounded-4xl border border-dashed border-violet-200/80 glass p-8 text-center">' +
+      '<span class="text-3xl">🫧</span><p class="mt-3 text-[15px] text-slate-400">牌重新洗好啦，再来一次！</p></div>';
+  }
+  var i = Math.floor(Math.random() * pool.length);
+  var c = pool.splice(i, 1)[0];
+  drawn.push(c);
+  count++; drawCount.textContent = count;
+  poolLeft.textContent = pool.length;
+  sfx.draw();
+  deck.classList.remove('shuffling'); void deck.offsetWidth; deck.classList.add('shuffling');
+
+  /* 右边摆放抽到的卡 */
+  setTimeout(function(){
+    var inner = drawn.map(miniCardHTML).join('');
+    cardArea.innerHTML = '<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">' + inner + '</div>';
+    if(pool.length === 0){
+      drawBtn.textContent = '洗一副新牌 🃏';
+    }
+    /* 抽到的卡弹出详情 */
+    setTimeout(function(){ openModal(cardModalHTML(c)); }, 260);
+  }, 300);
+});
+cardArea.addEventListener('click', function(e){
+  var b = e.target.closest('[data-card]');
+  if(!b) return;
+  var c = drawn[+b.dataset.card];
+  if(!c) return;
+  sfx.pop();
+  openModal(cardModalHTML(c));
+});
+
+/* =========================================================
+   逐梦目标：3D 视差箭头 + 节点弹窗
+========================================================= */
+var DREAMS = [
+  { tag: '大学毕业', icon: '🎓',
+    text: '完成本科阶段的积累，拿到满意的成绩单，申请到我的理想学校，完成我的研究生学业。',
+    more: '希望毕业时回头看，四年里的每一份笔记、每一次实习、每一场志愿活动，都变成了通往下一站的台阶。' },
+  { tag: '研究生毕业', icon: '📖',
+    text: '深耕金融专业领域，考完 CFA、FRM 以及 CPA。并结合自己学到的知识和实习的经验奔赴社会，开始稳扎稳打。',
+    more: '证书只是敲门砖，真正的底气来自把知识用进真实的市场判断里——一步一步来，不着急。' },
+  { tag: '工作后', icon: '💼',
+    text: '在香港找到属于自己的金融工作并在行业站稳脚跟，和同事和睦共处，兼顾事业与自己的生活节奏。',
+    more: '认真工作，也认真生活。周末照样去爬山、Citywalk，不让日历被会议填满。' },
+  { tag: '结婚后', icon: '🏡',
+    text: '在香港拥有温暖的小家，平衡家庭与自我，努力工作不断向上攀升，不丢掉自己的爱好与追求。',
+    more: '家是充电站，不是终点站。希望未来的日子里，依然有属于自己的书架、哑铃和旅行箱。' },
+  { tag: '中年时期', icon: '🌏',
+    text: '事业稳定，取得一定的小成就，拥有选择生活的底气，多去看看世界。',
+    more: '把去过 18 个省份的地图继续往外扩，和重要的人一起，把远方一个一个走成家常。' }
+];
+var DOTC = ['bg-rose-300', 'bg-amber-300', 'bg-sky-300', 'bg-violet-300', 'bg-emerald-300'];
+function dreamModalHTML(d, i){
+  return '<p class="text-sm tracking-[.3em] text-rose-300 mb-2">DREAM 0'+(i+1)+'</p>' +
+    '<h3 class="text-3xl font-bold text-slate-800 flex items-center gap-3">' +
+    '<span class="w-12 h-12 rounded-3xl bg-white/70 flex items-center justify-center text-2xl">'+d.icon+'</span>'+d.tag+'</h3>' +
+    '<p class="mt-5 text-[17px] leading-loose text-slate-600">'+d.text+'</p>' +
+    '<div class="mt-5 rounded-3xl bg-white/60 p-5 text-[15px] leading-loose text-slate-500 backdrop-blur">' +
+    '<span class="text-rose-300 font-bold">遐想 ✦ </span>'+d.more+'</div>';
+}
+(function buildTimeline(){
+  var desktop = document.getElementById('tlDesktop');
+  var mobile = document.getElementById('tlMobile');
+  var path = document.getElementById('dreamPath');
+  var LEN = path.getTotalLength();
+  /* 沿箭头路径均匀放 5 个节点（避开箭头尖端） */
+  [0.03, 0.27, 0.5, 0.72, 0.93].forEach(function(t, i){
+    var d = DREAMS[i];
+    var p = path.getPointAtLength(LEN * t);
+    var n = document.createElement('button');
+    n.className = 'dreamNode absolute group cursor-pointer pointer-events-auto';
+    n.style.left = (p.x / 1000 * 100) + '%';
+    n.style.top = (p.y / 420 * 100) + '%';
+    n.style.zIndex = 20 + i;
+    n.title = d.tag + ' · 点击查看';
+    n.innerHTML =
+      '<span class="w-14 h-14 flex items-center justify-center">' +
+        '<span class="w-10 h-10 rounded-full '+DOTC[i]+' ring-4 ring-white/90 shadow-soft ' +
+        'group-hover:scale-125 transition-transform duration-300 flex items-center justify-center text-base">'+d.icon+'</span>' +
+      '</span>' +
+      '<span class="block w-max -translate-x-[15%] -mt-1 text-[15px] font-medium text-slate-600 drop-shadow-sm bg-white/70 backdrop-blur px-2.5 py-0.5 rounded-full pointer-events-none">'+d.tag+'</span>';
+    n.addEventListener('click', function(){ sfx.pop(); openModal(dreamModalHTML(d, i)); });
+    desktop.appendChild(n);
+    /* 移动节点 */
+    var m = document.createElement('button');
+    m.className = 'relative block text-left w-full pb-9 last:pb-0';
+    m.innerHTML =
+      '<span class="absolute -left-[1.8rem] top-1 w-5 h-5 rounded-full '+DOTC[i]+' ring-4 ring-white/80"></span>' +
+      '<p class="font-medium text-slate-700 flex items-center gap-2">'+d.icon+' '+d.tag+'</p>' +
+      '<p class="mt-1 text-[15px] text-slate-500 leading-relaxed">'+d.text+'</p>';
+    m.addEventListener('click', function(){ sfx.pop(); openModal(dreamModalHTML(d, i)); });
+    mobile.appendChild(m);
+  });
+  /* 鼠标视差：箭头随鼠标微微倾斜，制造"射进屏幕"的纵深 */
+  var scene = document.getElementById('dreamScene');
+  var tilt = document.getElementById('dreamTilt');
+  scene.addEventListener('mousemove', function(ev){
+    var r = scene.getBoundingClientRect();
+    var rx = ((ev.clientY - r.top) / r.height - 0.5) * -8 + 20;
+    var ry = ((ev.clientX - r.left) / r.width - 0.5) * 7;
+    tilt.style.transform = 'rotateX(' + rx.toFixed(1) + 'deg) rotateY(' + ry.toFixed(1) + 'deg)';
+  });
+  scene.addEventListener('mouseleave', function(){
+    tilt.style.transform = 'rotateX(20deg)';
+  });
+  tilt.style.transform = 'rotateX(20deg)';
+})();
+
+/* =========================================================
+   照片分享（成长照片已按要求换位与更名）
+========================================================= */
+var ALBUMS = [
+  { key: 'growth', name: '成长照片', icon: '🌱', frame: 'frame-polaroid',
+    note: '从幼儿园到大学，一路长大的痕迹。',
+    items: [
+      ['images/growth-1.jpg', '幼儿园参加结婚典礼'],
+      ['images/growth-2.jpg', '小学顺利毕业啦'],
+      ['images/growth-3.jpg', '高中高考前去仙湖许愿'],
+      ['images/growth-4.jpg', '大学和爸妈过生日'],
+      ['images/growth-5.jpg', '初中回老家湖边散步'],
+      ['images/growth-6.jpg', '和女朋友在上海']
+    ] },
+  { key: 'friends', name: '与他人合照', icon: '🫂', frame: 'frame-soft',
+    note: '一起吃饭、一起玩、一起长大的朋友们。',
+    items: [
+      ['images/friends-1.jpg', '茶餐厅的聚会'],
+      ['images/friends-2.jpg', '日料局'],
+      ['images/friends-3.jpg', '操场上的我们'],
+      ['images/friends-4.jpg', '21 岁生日快乐'],
+      ['images/friends-5.jpg', '室内滑雪'],
+      ['images/friends-6.jpg', '黄果树瀑布']
+    ] },
+  { key: 'food', name: '美食分享', icon: '🍰', frame: 'frame-plate',
+    note: '认真吃饭，是生活里最简单的幸福。',
+    items: [
+      ['images/food-1.jpg', '抹茶草莓蛋糕'],
+      ['images/food-2.jpg', '广式点心'],
+      ['images/food-3.jpg', '下午茶时间'],
+      ['images/food-4.jpg', '美式烤肉拼盘'],
+      ['images/food-5.jpg', '两碗刨冰'],
+      ['images/food-6.jpg', '火锅与牛肉'],
+      ['images/food-7.jpg', '意面披萨之夜'],
+      ['images/food-8.jpg', 'omakase'],
+      ['images/food-9.jpg', '惠灵顿牛排'],
+      ['images/food-10.jpg', '日式烧鸟']
+    ] }
+];
+(function buildAlbums(){
+  var tabs = document.getElementById('albumTabs');
+  var panels = document.getElementById('albumPanels');
+  ALBUMS.forEach(function(a, i){
+    var b = document.createElement('button');
+    b.className = 'tabbtn px-5 py-2 rounded-full text-[15px] border backdrop-blur ' +
+      (i === 0 ? 'bg-slate-800/90 text-white border-slate-800 shadow-soft'
+               : 'glass text-slate-500 hover:text-slate-700');
+    b.textContent = a.icon + ' ' + a.name;
+    b.dataset.idx = i;
+    tabs.appendChild(b);
+
+    var p = document.createElement('div');
+    p.className = 'panel' + (i === 0 ? '' : ' hidden');
+    var grid = a.items.map(function(it, k){
+      var rot = (k % 2 === 0 ? '-rotate-1' : 'rotate-1');
+      var extra = a.frame === 'frame-polaroid'
+        ? '<span class="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-5 bg-amber-100/80 rotate-[-3deg] rounded-sm"></span>'
+        : '';
+      var cap = a.frame === 'frame-polaroid'
+        ? '<figcaption class="pt-2 text-center text-[15px] text-slate-500" style="font-family:\'Xingkai SC\',\'Kaiti SC\',\'KaiTi\',cursive">' + it[1] + '</figcaption>'
+        : '<figcaption class="pt-2.5 text-center text-sm text-slate-400">' + it[1] + '</figcaption>';
+      return '<figure class="relative ' + a.frame + ' ' + rot + ' hover:rotate-0 hover:-translate-y-1.5 ' +
+        'transition-transform duration-500 cursor-zoom-in" data-src="' + it[0] + '" data-cap="' + it[1] + '">' +
+        extra + '<div class="aspect-[4/3] overflow-hidden"><img src="' + it[0] + '" alt="' + it[1] +
+        '" loading="lazy"></div>' + cap + '</figure>';
+    }).join('');
+    p.innerHTML = '<p class="text-center text-[15px] text-slate-400 mb-8">' + a.note + '</p>' +
+      '<div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">' + grid + '</div>';
+    panels.appendChild(p);
+  });
+  tabs.addEventListener('click', function(e){
+    var b = e.target.closest('.tabbtn');
+    if(!b) return;
+    Array.prototype.forEach.call(tabs.children, function(t, i){
+      t.className = 'tabbtn px-5 py-2 rounded-full text-[15px] border backdrop-blur ' +
+        (i == b.dataset.idx ? 'bg-slate-800/90 text-white border-slate-800 shadow-soft'
+                            : 'glass text-slate-500 hover:text-slate-700');
+    });
+    Array.prototype.forEach.call(panels.children, function(p, i){
+      p.classList.toggle('hidden', i != b.dataset.idx);
+    });
+  });
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCap = document.getElementById('lbCap');
+  panels.addEventListener('click', function(e){
+    var f = e.target.closest('figure[data-src]');
+    if(!f) return;
+    lbImg.src = f.dataset.src;
+    lbImg.alt = f.dataset.cap;
+    lbCap.textContent = f.dataset.cap;
+    lb.classList.remove('hidden'); lb.classList.add('flex');
+  });
+  lb.addEventListener('click', function(){
+    lb.classList.add('hidden'); lb.classList.remove('flex');
+    lbImg.src = '';
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !lb.classList.contains('hidden')){
+      lb.classList.add('hidden'); lb.classList.remove('flex'); lbImg.src = '';
+    }
+  });
+})();
+
+/* =========================================================
+   心情电台：《心墙》播放器 + 歌词
+   音频文件：images/xinqiang.mp3（把 mp3 放进去即可）
+   歌词：下方 LRC 数组已内嵌逐行时间轴（来自酷狗 KRC 转换）；
+   如需换成其他版本，改这个数组或提供带时间轴的
+   images/xinqiang.lrc，播放器会自动加载并逐行高亮。
+========================================================= */
+var LRC = [
+  { time: 0.00, text: "林俊杰 - 心墙" },
+  { time: 0.06, text: "词：姚若龙" },
+  { time: 0.12, text: "曲：林俊杰" },
+  { time: 0.18, text: "编曲：陈炯顺" },
+  { time: 0.24, text: "制作人：吴剑泓/陈炯顺" },
+  { time: 0.30, text: "一个人眺望碧海和蓝天" },
+  { time: 7.55, text: "在心里面 那抹灰就淡一些" },
+  { time: 14.24, text: "海豚从眼前飞越" },
+  { time: 18.14, text: "我看见了最阳光的笑脸" },
+  { time: 22.60, text: "好时光都该被宝贝" },
+  { time: 25.42, text: "因为有限" },
+  { time: 31.11, text: "我学着不去担心得太远" },
+  { time: 34.82, text: "不计划太多反而能勇敢冒险" },
+  { time: 38.67, text: "丰富地过每一天" },
+  { time: 40.48, text: "快乐地看每一天" },
+  { time: 44.26, text: "Woo" },
+  { time: 46.35, text: "第一次遇见阴天" },
+  { time: 48.07, text: "遮住你侧脸" },
+  { time: 50.02, text: "有什么故事好想了解" },
+  { time: 53.71, text: "我感觉我懂你的特别" },
+  { time: 60.65, text: "你的心有一道墙" },
+  { time: 64.05, text: "但我发现一扇窗" },
+  { time: 69.15, text: "偶尔透出一丝暖暖的微光" },
+  { time: 75.86, text: "就算你有一道墙" },
+  { time: 79.71, text: "我的爱会攀上窗台盛放" },
+  { time: 84.10, text: "打开窗你会看到" },
+  { time: 86.87, text: "悲伤融化" },
+  { time: 107.94, text: "我学着不去担心得太远" },
+  { time: 111.63, text: "不计划太多反而能勇敢冒险" },
+  { time: 115.47, text: "丰富地过每一天" },
+  { time: 117.25, text: "快乐地看每一天" },
+  { time: 120.95, text: "Woo" },
+  { time: 123.15, text: "第一次遇见阴天" },
+  { time: 124.89, text: "遮住你侧脸" },
+  { time: 126.96, text: "有什么故事好想了解" },
+  { time: 130.73, text: "我感觉我懂你的特别" },
+  { time: 137.32, text: "你的心有一道墙" },
+  { time: 141.08, text: "但我发现一扇窗" },
+  { time: 145.83, text: "偶尔透出一丝暖暖的微光" },
+  { time: 152.46, text: "就算你有一道墙" },
+  { time: 156.48, text: "我的爱会攀上窗台盛放" },
+  { time: 160.79, text: "打开窗你会看到" },
+  { time: 163.67, text: "悲伤融化" },
+  { time: 168.01, text: "你的心有一道墙" },
+  { time: 171.70, text: "但我发现一扇窗" },
+  { time: 176.63, text: "偶尔透出一丝暖暖的微光" },
+  { time: 183.28, text: "就算你有一道墙" },
+  { time: 187.19, text: "我的爱会攀上窗台盛放" },
+  { time: 191.56, text: "打开窗你会看到" },
+  { time: 194.34, text: "悲伤融化" },
+  { time: 199.30, text: "你会闻到幸福晴朗" },
+  { time: 205.06, text: "的芬芳" }
+];
+var LRC_RAW = LRC.map(function(l){ return { time: l.time, text: l.text }; });
+var song = document.createElement('audio');
+song.src = 'images/xinqiang.mp3';
+song.preload = 'metadata';
+var songWasPlaying = false;
+var songOK = true;
+song.addEventListener('error', function(){
+  songOK = false;
+  document.getElementById('songHint').classList.remove('hidden');
+});
+var songPlayBtn = document.getElementById('songPlay');
+var iconPlay = document.getElementById('iconPlay');
+var iconPause = document.getElementById('iconPause');
+var seek = document.getElementById('seek');
+var tCur = document.getElementById('tCur');
+var tDur = document.getElementById('tDur');
+function fmt(s){
+  if(!isFinite(s)) return '0:00';
+  s = Math.floor(s);
+  return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+}
+function refreshSongUI(){
+  var playing = !song.paused && !song.ended;
+  iconPlay.classList.toggle('hidden', playing);
+  iconPause.classList.toggle('hidden', !playing);
+  document.getElementById('discWrap').classList.toggle('spinning', playing);
+}
+/* 播放《心墙》→ 暂停背景乐；关掉 → 背景乐继续 */
+song.addEventListener('play', function(){
+  songWasPlaying = music.isPlaying();
+  if(songWasPlaying) music.stop();
+  refreshMusicUI(); refreshSongUI();
+});
+function songStopped(){
+  refreshSongUI();
+  if(songWasPlaying){ music.start(); refreshMusicUI(); }
+}
+song.addEventListener('pause', songStopped);
+song.addEventListener('ended', songStopped);
+songPlayBtn.addEventListener('click', function(){
+  if(!songOK) return;
+  if(song.paused){ song.play(); } else { song.pause(); }
+});
+song.addEventListener('timeupdate', function(){
+  tCur.textContent = fmt(song.currentTime);
+  if(isFinite(song.duration) && song.duration > 0){
+    seek.value = Math.round(song.currentTime / song.duration * 1000);
+    tDur.textContent = fmt(song.duration);
+  }
+  syncLyric();
+});
+seek.addEventListener('input', function(){
+  if(isFinite(song.duration) && song.duration > 0){
+    song.currentTime = this.value / 1000 * song.duration;
+  }
+});
+/* 歌词面板切换 */
+var discBtn = document.getElementById('discBtn');
+var lyricsPanel = document.getElementById('lyricsPanel');
+var playerBar = document.getElementById('playerBar');
+var lyricList = document.getElementById('lyricList');
+function buildLyrics(lines){
+  lyricList.innerHTML = lines.map(function(l, i){
+    return '<p class="lyricline text-[17px] text-slate-500" data-lc="'+i+'">'+l.text+'</p>';
+  }).join('');
+}
+/* 歌词整体延后的秒数：正值 = 歌词放慢（晚一点出现）。已按实际听感校准。 */
+var LYRIC_DEFAULT_OFFSET = 25.5;
+var LYRIC_OFFSET = LYRIC_DEFAULT_OFFSET;
+try{
+  var saved = parseFloat(localStorage.getItem('easonLyricOffset'));
+  if(isFinite(saved)) LYRIC_OFFSET = saved;
+}catch(e){}
+var offsetLabel = document.getElementById('lyricOffset');
+
+/* 把偏移烘焙进歌词时间轴；尾部若超出歌曲长度则局部压缩，保证最后一句也能显示 */
+function applyLyricOffset(){
+  LYRIC_OFFSET = Math.round(LYRIC_OFFSET * 10) / 10;
+  var dur = (isFinite(song.duration) && song.duration > 1) ? song.duration : 225.6;
+  var end = dur - 1.5;
+  var last = LRC_RAW.length - 1;
+  var shifted = LRC_RAW.map(function(l){ return { time: l.time + LYRIC_OFFSET, text: l.text }; });
+  if(shifted[last].time > end){
+    var k = last;
+    while(k > 0 && shifted[k].time > end) k--;
+    var src0 = shifted[k].time, src1 = shifted[last].time;
+    var dst1 = Math.max(end, src0 + 0.6);
+    for(var i = k + 1; i <= last; i++){
+      shifted[i].time = src0 + (shifted[i].time - src0) * (dst1 - src0) / (src1 - src0);
+    }
+  }
+  LRC = shifted;
+  buildLyrics(LRC);
+  if(offsetLabel) offsetLabel.textContent = (LYRIC_OFFSET >= 0 ? '+' : '') + LYRIC_OFFSET.toFixed(1) + 's';
+  try{ localStorage.setItem('easonLyricOffset', String(LYRIC_OFFSET)); }catch(e){}
+}
+applyLyricOffset();
+song.addEventListener('loadedmetadata', applyLyricOffset);
+song.addEventListener('durationchange', applyLyricOffset);
+document.getElementById('lyricSlower').addEventListener('click', function(){ LYRIC_OFFSET += 0.5; applyLyricOffset(); });
+document.getElementById('lyricFaster').addEventListener('click', function(){ LYRIC_OFFSET -= 0.5; applyLyricOffset(); });
+document.getElementById('lyricReset').addEventListener('click', function(){ LYRIC_OFFSET = LYRIC_DEFAULT_OFFSET; applyLyricOffset(); });
+
+function syncLyric(){
+  if(!isFinite(song.duration)) return;
+  var t = song.currentTime;
+  var cur = -1;
+  for(var i = 0; i < LRC.length; i++){
+    if(LRC[i].time != null && LRC[i].time <= t) cur = i;
+  }
+  if(cur < 0) return;
+  lyricList.querySelectorAll('.lyricline').forEach(function(p, i){
+    p.classList.toggle('cur', i === cur);
+  });
+  var el = lyricList.querySelector('.lyricline.cur');
+  if(el) lyricList.scrollTop = el.offsetTop - lyricList.clientHeight / 2 + el.clientHeight;
+}
+function tryLoadLRC(){
+  fetch('images/xinqiang.lrc').then(function(r){ if(!r.ok) throw 0; return r.text(); }).then(function(txt){
+    var lines = [];
+    txt.split(/\r?\n/).forEach(function(line){
+      var m = line.match(/\[(\d+):(\d+(?:\.\d+)?)\](.*)/);
+      if(m) lines.push({ time: (+m[1]) * 60 + (+m[2]), text: m[3].trim() || '♪' });
+    });
+    if(lines.length){
+      LRC_RAW = lines; applyLyricOffset();
+    }
+  }).catch(function(){});
+}
+tryLoadLRC();
+discBtn.addEventListener('click', function(){
+  var showLyrics = lyricsPanel.classList.contains('hidden');
+  lyricsPanel.classList.toggle('hidden', !showLyrics);
+  playerBar.classList.toggle('hidden', showLyrics);
+  if(showLyrics){ buildLyrics(LRC); sfx.pop(); }
+});
+document.getElementById('backPlayer').addEventListener('click', function(){
+  lyricsPanel.classList.add('hidden');
+  playerBar.classList.remove('hidden');
+});
+
+/* =========================================================
+   天气（Open-Meteo 免费 API，无需密钥；失败时优雅降级）
+========================================================= */
+(function weather(){
+  var CODES = {
+    0:['☀️','晴'],1:['🌤','大致晴'],2:['⛅','局部多云'],3:['☁️','多云'],
+    45:['🌫','雾'],48:['🌫','雾凇'],
+    51:['🌦','小毛雨'],53:['🌦','毛毛雨'],55:['🌧','大雨毛'],
+    61:['🌦','小雨'],63:['🌧','中雨'],65:['🌧','大雨'],
+    66:['🌧','冻雨'],67:['🌧','冻雨'],71:['🌨','小雪'],73:['🌨','中雪'],75:['🌨','大雪'],77:['🌨','雪粒'],
+    80:['🌦','阵雨'],81:['🌧','阵雨'],82:['⛈','强阵雨'],
+    85:['🌨','阵雪'],86:['🌨','阵雪'],95:['⛈','雷雨'],96:['⛈','雷雨伴冰雹'],99:['⛈','雷雨伴冰雹']
+  };
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.3193&longitude=114.1694' +
+    '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m' +
+    '&hourly=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min' +
+    '&timezone=Asia%2FHong_Kong&forecast_days=2';
+  function wcode(c){ return CODES[c] || ['🌤','—']; }
+  fetch(url).then(function(r){ return r.json(); }).then(function(j){
+    var c = j.current, d = j.daily, h = j.hourly;
+    document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m);
+    document.getElementById('wxFeels').textContent = Math.round(c.apparent_temperature);
+    document.getElementById('wxHum').textContent = c.relative_humidity_2m;
+    document.getElementById('wxWind').textContent = Math.round(c.wind_speed_10m);
+    document.getElementById('wxMax').textContent = Math.round(d.temperature_2m_max[0]);
+    document.getElementById('wxMin').textContent = Math.round(d.temperature_2m_min[0]);
+    var ic = wcode(c.weather_code);
+    document.getElementById('wxIcon').textContent = ic[0];
+    document.getElementById('wxDesc').textContent = ic[1];
+    /* 逐小时：从当前小时起 6 格 */
+    var now = Date.now(), idx = 0;
+    for(var i = 0; i < h.time.length; i++){
+      if(new Date(h.time[i]).getTime() >= now - 3600e3){ idx = i; break; }
+    }
+    var html = '';
+    for(var k = 0; k < 6 && idx + k < h.time.length; k++){
+      var hh = new Date(h.time[idx + k]);
+      var w = wcode(h.weather_code[idx + k]);
+      html += '<div class="rounded-2xl bg-white/50 py-2"><p class="text-[11px] text-slate-400">' +
+        (k === 0 ? '现在' : ('0' + hh.getHours()).slice(-2) + '时') +
+        '</p><p class="text-lg mt-0.5">' + w[0] +
+        '</p><p class="text-[13px] text-slate-500 font-medium">' + Math.round(h.temperature_2m[idx + k]) + '°</p></div>';
+    }
+    document.getElementById('wxHourly').innerHTML = html;
+  }).catch(function(){
+    document.getElementById('wxDesc').textContent = '天气服务暂时联系不上';
+    document.getElementById('wxHourly').innerHTML = '<p class="col-span-6 text-xs text-slate-400">稍后再来看看吧</p>';
+  });
+})();
+
+/* =========================================================
+   日历
+========================================================= */
+(function calendar(){
+  var now = new Date();
+  var y = now.getFullYear(), m = now.getMonth();
+  document.getElementById('calTitle').textContent = y + '年' + (m + 1) + '月';
+  var first = new Date(y, m, 1).getDay();
+  var days = new Date(y, m + 1, 0).getDate();
+  var html = '';
+  for(var i = 0; i < first; i++) html += '<span></span>';
+  for(var dd = 1; dd <= days; dd++){
+    var isToday = dd === now.getDate();
+    var weekend = (i + dd - 1) % 7 === 0;
+    html += '<span class="py-1 rounded-full ' + (isToday
+      ? 'bg-amber-400 text-white font-bold shadow-soft'
+      : (weekend ? 'text-rose-300' : 'text-slate-500')) + '">' + dd + '</span>';
+  }
+  document.getElementById('calGrid').innerHTML = html;
+})();
+
+/* =========================================================
+   留言墙（localStorage 保存）
+========================================================= */
+(function wall(){
+  var KEY = 'eason-wall-v1';
+  var NOTE_BG = ['#FFF9F0', '#FFF1F1', '#EFF6FF', '#F0FDF4', '#FDF4FF', '#FDFCE8'];
+  var NOTE_PIN = ['#7CA9D8', '#D88CA5', '#8FBF9F', '#B49AD8', '#D8B06A'];
+  var SEED = [
+    { n: '墙上的第一位客人', t: '太棒啦！', d: '2026.10.01', h: '10:24' },
+    { n: '路过的同学', t: '功不唐捐', d: '2026.10.03', h: '13:19' },
+    { n: '旧友', t: '凡是过往，皆为序章', d: '2026.10.05', h: '20:42' },
+    { n: '网友', t: 'Never say never', d: '2026.10.06', h: '09:14' },
+    { n: '家人', t: '希望！', d: '2026.10.07', h: '18:37' },
+    { n: '老朋友', t: '好久不见', d: '2026.10.07', h: '20:23' }
+  ];
+  var grid = document.getElementById('wallGrid');
+  function load(){
+    try{
+      var saved = JSON.parse(localStorage.getItem(KEY) || '[]');
+      return saved.length ? saved : SEED.slice();
+    }catch(e){ return SEED.slice(); }
+  }
+  function save(list){
+    try{ localStorage.setItem(KEY, JSON.stringify(list)); }catch(e){}
+  }
+  function pad(n){ return ('0' + n).slice(-2); }
+  function noteHTML(w, i){
+    var bg = NOTE_BG[i % NOTE_BG.length], pin = NOTE_PIN[i % NOTE_PIN.length];
+    var rot = ((i * 37) % 5) - 2;
+    return '<div class="note" style="background:'+bg+';transform:rotate('+rot+'deg)">' +
+      '<span class="pin" style="background:'+pin+'"></span>' +
+      '<p class="note-body">'+w.t.replace(/</g,'&lt;')+'</p>' +
+      '<div class="mt-3 pt-2 border-t border-black/5 flex items-center justify-between text-[11px] text-slate-400">' +
+        '<span>🗓 '+w.d+' '+(w.h || '')+'</span><span class="truncate max-w-[45%]">'+(w.n || '匿名').replace(/</g,'&lt;')+'</span>' +
+      '</div></div>';
+  }
+  function render(){
+    var list = load();
+    grid.innerHTML = list.map(noteHTML).join('');
+  }
+  document.getElementById('wallPost').addEventListener('click', function(){
+    var t = document.getElementById('wallText').value.trim();
+    var n = document.getElementById('wallName').value.trim();
+    if(!t){ document.getElementById('wallText').focus(); return; }
+    var now = new Date();
+    var list = load();
+    list.push({
+      n: n || '匿名访客', t: t,
+      d: now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate()),
+      h: pad(now.getHours()) + ':' + pad(now.getMinutes())
+    });
+    save(list); render();
+    document.getElementById('wallText').value = '';
+    sfx.pop();
+    grid.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  render();
+})();
+
+/* =========================================================
+   联系我：两侧 hover 烟花
+========================================================= */
+(function fireworks(){
+  var canvas = document.getElementById('fwCanvas');
+  var ctx = canvas.getContext('2d');
+  var parts = [];
+  var rockets = [];
+  var COLORS = ['#F9A8C0', '#FBD38D', '#A5C9F0', '#B5E8C8', '#CDB4F0'];
+  function resize(){
+    var r = canvas.parentElement.getBoundingClientRect();
+    canvas.width = r.width * devicePixelRatio;
+    canvas.height = r.height * devicePixelRatio;
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  }
+  resize(); window.addEventListener('resize', resize);
+  function sites(){
+    var r = canvas.parentElement.getBoundingClientRect();
+    return [{ x: r.width * 0.12, y: r.height * 0.4 }, { x: r.width * 0.88, y: r.height * 0.35 }];
+  }
+  function explode(x, y){
+    var col = COLORS[(Math.random() * COLORS.length) | 0];
+    for(var i = 0; i < 26; i++){
+      var a = (Math.PI * 2 * i) / 26 + Math.random() * 0.2;
+      var v = 1.2 + Math.random() * 1.8;
+      parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+        life: 1, col: Math.random() < 0.5 ? col : '#FFFFFF' });
+    }
+  }
+  function launch(x, y){
+    rockets.push({ x: x, y: canvas.parentElement.getBoundingClientRect().height - 10,
+      tx: x, ty: y, t: 0 });
+  }
+  function tick(){
+    var r = canvas.parentElement.getBoundingClientRect();
+    ctx.clearRect(0, 0, r.width, r.height);
+    /* 火箭上升 */
+    for(var i = rockets.length - 1; i >= 0; i--){
+      var rk = rockets[i];
+      rk.t += 0.022;
+      var cy = rk.y + (rk.ty - rk.y) * (1 - Math.pow(1 - rk.t, 2));
+      ctx.fillStyle = 'rgba(255,255,255,.85)';
+      ctx.beginPath(); ctx.arc(rk.x, cy, 2, 0, 7); ctx.fill();
+      if(rk.t >= 1){ explode(rk.tx, rk.ty); rockets.splice(i, 1); }
+    }
+    /* 粒子 */
+    for(var j = parts.length - 1; j >= 0; j--){
+      var p = parts[j];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.vx *= 0.985; p.life -= 0.014;
+      if(p.life <= 0){ parts.splice(j, 1); continue; }
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.col;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.8, 0, 7); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  /* 鼠标靠近两侧烟花位置 → 发射；点画布任意处也发射 */
+  canvas.addEventListener('mousemove', function(ev){
+    var rect = canvas.getBoundingClientRect();
+    var mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+    sites().forEach(function(s){
+      if(Math.hypot(mx - s.x, my - s.y) < 70 && Math.random() < 0.12) launch(s.x, s.y);
+    });
+  });
+  canvas.addEventListener('click', function(ev){
+    var rect = canvas.getBoundingClientRect();
+    launch(ev.clientX - rect.left, ev.clientY - rect.top);
+  });
+  /* 偶尔自己放一朵，保持氛围 */
+  setInterval(function(){
+    if(document.hidden) return;
+    var s = sites()[(Math.random() * 2) | 0];
+    launch(s.x, s.y);
+  }, 5200);
+})();
+
+/* 导航高亮 */
+var links = document.querySelectorAll('.navlink');
+var secIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(!en.isIntersecting) return;
+    var id = '#' + en.target.id;
+    links.forEach(function(l){
+      var on = l.getAttribute('href') === id;
+      l.classList.toggle('bg-white/80', on);
+      l.classList.toggle('text-slate-800', on);
+      l.classList.toggle('shadow-soft', on);
+    });
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+['about', 'skills', 'finance', 'cards', 'dreams', 'photos', 'radio', 'wall', 'contact'].forEach(function(id){
+  var s = document.getElementById(id); if(s) secIO.observe(s);
+});
+</script>
+</body>
+</html>
